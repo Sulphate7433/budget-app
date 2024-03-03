@@ -1,8 +1,16 @@
 from flask import Flask, render_template
 
 
+
+
+
+
 # Create a flask application
 app = Flask(__name__)  
+
+
+
+
 # Creating a route to the homepage 'wepage.com/'
 @app.route('/')  
 def hello_world(): 
