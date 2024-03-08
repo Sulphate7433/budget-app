@@ -13,6 +13,24 @@
         object-fit: cover;
         margin-bottom: 16px;
       }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
     </style>
   </head>
 
@@ -34,5 +52,48 @@
       Cras sodales scelerisque orci, non cursus nisi tempor in. Maecenas augue elit, tincidunt eu dui nec, molestie facilisis purus. Nunc ornare efficitur nunc, non ornare magna aliquam id. Curabitur ullamcorper non leo tincidunt tempus. Nulla nisl nibh, tincidunt quis neque ornare, auctor scelerisque nibh. Etiam mollis feugiat nibh, eu egestas libero mollis vitae. Proin sit amet tincidunt tellus, sit amet placerat nulla. Phasellus sed dolor in arcu rutrum bibendum sed at mi. Aenean convallis semper diam eu laoreet. Suspendisse iaculis sit amet augue in fermentum. Mauris eu ultrices lectus. Donec vitae egestas mi, a tincidunt erat. Donec nunc augue, condimentum nec auctor a, euismod sit amet quam. Nunc rhoncus imperdiet lorem, ut elementum quam elementum vitae. Maecenas libero est, sollicitudin et nisl et, ornare porttitor erat. 
       </p>
 
+      <table id="editableTable">
+        <thead>
+            <tr>
+                <th>Column 1</th>
+                <th>Column 2</th>
+                <th>Column 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td contenteditable="true">1</td>
+                <td contenteditable="true">2</td>
+                <td contenteditable="true">3</td>
+            </tr>
+            <tr>
+                <td contenteditable="true">4</td>
+                <td contenteditable="true">5</td>
+                <td contenteditable="true">6</td>
+            </tr>
+            <tr>
+                <td contenteditable="true">7</td>
+                <td contenteditable="true">8</td>
+                <td contenteditable="true">9</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <script>
+        // Add event listeners to each cell for updating values
+        var cells = document.querySelectorAll('#editableTable td[contenteditable="true"]');
+        cells.forEach(function(cell) {
+            cell.addEventListener('input', function() {
+                // Ensure input is numeric (optional)
+                if (!isNaN(parseFloat(this.innerHTML)) && isFinite(this.innerHTML)) {
+                    // Update cell value
+                    this.innerHTML = parseFloat(this.innerHTML);
+                } else {
+                    // Reset cell value if non-numeric input
+                    this.innerHTML = '';
+                }
+            });
+        });
+    </script>
   </body>
 </html>
