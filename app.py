@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from database import engine
 import pandas as pd
+from pretty_html_table import build_table
 
 # Create a flask application
 app = Flask(__name__)
@@ -20,7 +21,7 @@ def home():
 @app.route('/budgetapp/')
 def budgetapp():
     data = pd.DataFrame(load_db('SELECT * FROM [SalesLT].[SalesOrderDetail]'))
-    results = {"data": [data.to_html().replace('\n','')]}
+    results = {"data": [build_table(data,'grey_dark')]}
     return render_template('budgetapp.html',results_dict=results)
 
 @app.route('/login/')
