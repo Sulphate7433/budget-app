@@ -1,11 +1,12 @@
 import urllib
-from sqlalchemy import create_engine,text
+from sqlalchemy import create_engine
 import pandas as pd
+import getpass
 
 server   = 'budget-app.database.windows.net'
 database = 'TestDB'
 username = 'Augusto'
-password = '!QAZ2wsx'   
+password = getpass.getpass("Enter password:\n")
 driver   = '{ODBC Driver 18 for SQL Server}'
 
 conn = f"""Driver={driver};Server=tcp:{server},1433;Database={database};
