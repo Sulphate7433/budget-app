@@ -7,9 +7,9 @@ app = Flask(__name__)
 
 # Loadable query
 def load_db(query):
-   with engine.connect() as connection:
-    df = pd.read_sql(query, connection)
-    return df
+  with engine.connect() as connection:
+      df = pd.read_sql(query, connection)
+  return df
 
 
 # Creating a route to the homepage 'wepage.com/'
@@ -19,8 +19,9 @@ def home():
   
 @app.route('/budgetapp/')
 def budgetapp():
-    data = load_db('SELECT * FROM [SalesLT].[SalesOrderDetail]')
-    return render_template('budgetapp.html')
+    data = pd.DataFrame(load_db('SELECT * FROM [SalesLT].[SalesOrderDetail]'))
+    results = {"data": [data.to_html().replace('\n','')]}
+    return render_template('budgetapp.html',results_dict=results)
 
 @app.route('/login/')
 def login():
