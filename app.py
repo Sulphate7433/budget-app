@@ -1,7 +1,15 @@
 from flask import Flask, render_template
+from database import engine
+import pandas as pd
 
 # Create a flask application
 app = Flask(__name__)
+
+# Loadable query
+def load_db(query):
+   with engine.connect() as connection:
+    df = pd.read_sql(query, connection)
+    return df
 
 
 # Creating a route to the homepage 'wepage.com/'
@@ -11,8 +19,9 @@ def home():
   
 @app.route('/budgetapp/')
 def budgetapp():
+    data = load_db('SELECT * FROM [SalesLT].[SalesOrderDetail]')
     return render_template('budgetapp.html')
-  
+
 @app.route('/login/')
 def login():
     return render_template('login.html')
