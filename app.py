@@ -12,6 +12,26 @@ def load_db(query):
       df = pd.read_sql(query, connection)
   return df
 
+accounts_query = '''SELECT a.[Accounts]
+      ,a.[ID]
+      ,a.[Type]
+      ,a.[Interest_Rate]
+      ,a.[Grace_Period]
+      ,a.[Starting_Balance]
+	  ,SUM(t.Debits) as 'Debits'
+	  ,SUM(t.Credits) as 'Credits'
+	  ,a.Starting_Balance + SUM(t.Debits) - SUM(t.Credits) AS 'Current Balance'
+  FROM [dbo].[Accounts] a
+  LEFT JOIN dbo.Transactions t ON a.Accounts = t.Account 
+
+  GROUP BY a.[Accounts]
+      ,a.[ID]
+      ,a.[Type]
+      ,a.[Interest_Rate]
+      ,a.[Grace_Period]
+      ,a.[Starting_Balance]
+
+   ORDER BY [Type], [Current Balance] DESC'''
 
 # Creating a route to the homepage 'wepage.com/'
 @app.route('/')
@@ -20,8 +40,10 @@ def home():
   
 @app.route('/budgetapp/')
 def budgetapp():
-    data = pd.DataFrame(load_db('SELECT * FROM [SalesLT].[SalesOrderDetail]'))
-    results = {"data": [build_table(data,'grey_dark')]}
+    transactions = pd.DataFrame(load_db('SELECT * FROM [dbo].[Transactions] ORDER BY DATE ASC'))
+    accounts = pd.DataFrame(load_db(accounts_query))
+    results = {"transactions": [build_table(transactions,'grey_dark')],
+               "accounts":[build_table(accounts,'grey_dark')]}
     return render_template('budgetapp.html',results_dict=results)
 
 @app.route('/login/')

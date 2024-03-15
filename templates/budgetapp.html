@@ -24,10 +24,14 @@
     <div class='container'>
       <h1 class='text-center mt-2 mb-4''>Transaction table</h1>
       <p>
-      Below is a sample dataset:
+      Below is the current transaction dataset:
       </p>
-    
-      {{ results_dict.data[0]|safe }}
+      {{ results_dict.transactions[0]|safe }}
+
+      <p>
+        Below is the current accounts dataset:
+      </p>
+      {{ results_dict.accounts[0]|safe }}
       
     </div>
   </body>
